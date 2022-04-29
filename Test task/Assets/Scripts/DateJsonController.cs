@@ -25,7 +25,14 @@ public class DateJsonController
     {
         if (File.Exists(jsonFilePath))
         {
-             movingPoints = JsonUtility.FromJson<MovingPoints>(File.ReadAllText(jsonFilePath));
+            movingPoints = JsonUtility.FromJson<MovingPoints>(File.ReadAllText(jsonFilePath));
+
+            if (movingPoints.points.Length < 1)
+            {
+                WorkinWithMovingPoints workinWithMovingPoints = new WorkinWithMovingPoints();
+
+                return workinWithMovingPoints.RandomGenerationMovingPoints(3);
+            }
 
             return movingPoints.points;
         }
