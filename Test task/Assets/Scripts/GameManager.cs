@@ -39,6 +39,11 @@ public class GameManager : MonoBehaviour
         travelTimer.StopTimer();
     }
 
+    public void ExitInGame()
+    {
+        Application.Quit();
+    }
+
     private void ChangeVisibleUI()
     {
         menuPanel.SetActive(!menuPanel.activeSelf);
