@@ -16,11 +16,15 @@ public class GameLoop : MonoBehaviour
 
     private Player playerInstance;
 
+    EnemySpawner enemySpawner;
+
     private CancellationTokenSource ctsGameLoop;
 
     private void Awake()
     {
         ctsGameLoop = new CancellationTokenSource();
+
+        enemySpawner = new();
 
         GameProcess(ctsGameLoop.Token).Forget();
     }
@@ -31,8 +35,6 @@ public class GameLoop : MonoBehaviour
 
         playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-        var enemy = Instantiate(enemyPrefab, Vector3.one, Quaternion.identity);
-
-        enemy.Initialize(playerInstance.transform);
+        enemySpawner.Initialize(enemyPrefab, 2f, playerInstance.transform);
     }
 }
