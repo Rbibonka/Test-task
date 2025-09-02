@@ -11,6 +11,9 @@ public class GameLoop : MonoBehaviour
     [SerializeField]
     private Player playerPrefab;
 
+    [SerializeField]
+    private Enemy enemyPrefab;
+
     private Player playerInstance;
 
     private CancellationTokenSource ctsGameLoop;
@@ -27,5 +30,9 @@ public class GameLoop : MonoBehaviour
         await UniTask.WaitForSeconds(2f);
 
         playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+
+        var enemy = Instantiate(enemyPrefab, Vector3.one, Quaternion.identity);
+
+        enemy.Initialize(playerInstance.transform);
     }
 }
