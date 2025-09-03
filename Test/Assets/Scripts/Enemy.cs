@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : MonoBehaviour
+public class Enemy : PoolableObject
 {
     [SerializeField]
     private Rigidbody2D rigidbody;
@@ -13,12 +15,23 @@ public class Enemy : MonoBehaviour
 
     private EnemyMover enemyMover;
 
+    public event Action<Enemy> OnDead;
+
     public void Initialize(Transform targetTransform)
     {
         this.targetTransform = targetTransform;
 
         enemyMover = new();
         enemyMover.Initialize(moveSpeed, rigidbody);
+
+        WaitForDead().Forget();
+    }
+
+    private async UniTask WaitForDead()
+    {
+        await UniTask.WaitForSeconds(5f);
+
+        Dead();
     }
 
     public void FixedUpdate()
@@ -29,5 +42,10 @@ public class Enemy : MonoBehaviour
         }
 
         enemyMover.MoveToTarget(targetTransform.position);
+    }
+
+    public void Dead()
+    {
+        OnDead?.Invoke(this);
     }
 }

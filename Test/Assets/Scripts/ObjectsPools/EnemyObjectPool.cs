@@ -1,0 +1,1 @@
+public class EnemyObjectPool : BaseObjectPool<Enemy> { }

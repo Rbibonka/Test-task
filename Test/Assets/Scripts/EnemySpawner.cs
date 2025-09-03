@@ -16,11 +16,17 @@ public class EnemySpawner
 
     private const float SpawnOffset = 0.5f;
 
-    public void Initialize(Enemy enemyPrefab, float spawnPointsOffset, Transform targetTransform)
+    private EnemyObjectPool enemyObjectPool;
+
+    public void Initialize(Enemy enemyPrefab, float spawnPointsOffset, Transform targetTransform, Transform enemySpawnerParent)
     {
         this.enemyPrefab = enemyPrefab;
         this.spawnPointsOffset = spawnPointsOffset;
         this.targetTransform = targetTransform;
+
+        enemyObjectPool = new EnemyObjectPool();
+
+        enemyObjectPool.Initialize(enemyPrefab, enemySpawnerParent);
 
         SetCameraInformation();
 
@@ -46,9 +52,15 @@ public class EnemySpawner
         {
             await UniTask.WaitForSeconds(0.5f);
 
-            var enemy = GameObject.Instantiate(enemyPrefab, Point(), Quaternion.identity);
+            var enemy = enemyObjectPool.GetFromPool();
 
+            enemy.transform.SetParent(null);
+            enemy.gameObject.SetActive(true);
+
+            enemy.transform.position = Point();
             enemy.Initialize(targetTransform);
+
+            enemy.OnDead += OnEnemyDead;
         }
     }
 
@@ -67,5 +79,13 @@ public class EnemySpawner
         } while (distance < neccesarySpawnDistance);
 
         return xPosition;
+    }
+
+    private void OnEnemyDead(Enemy enemy)
+    {
+        enemy.OnDead -= OnEnemyDead;
+
+        enemy.gameObject.SetActive(false);
+        enemyObjectPool.SetToPool(enemy);
     }
 }

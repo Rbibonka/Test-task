@@ -14,6 +14,9 @@ public class GameLoop : MonoBehaviour
     [SerializeField]
     private Enemy enemyPrefab;
 
+    [SerializeField]
+    private Transform enemySpawnerParent;
+
     private Player playerInstance;
 
     EnemySpawner enemySpawner;
@@ -35,6 +38,6 @@ public class GameLoop : MonoBehaviour
 
         playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-        enemySpawner.Initialize(enemyPrefab, 2f, playerInstance.transform);
+        enemySpawner.Initialize(enemyPrefab, 2f, playerInstance.transform, enemySpawnerParent);
     }
 }

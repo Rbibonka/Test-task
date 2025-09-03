@@ -16,8 +16,8 @@ public class EnemyMover
     {
         var targetDirection = (targetPosition - (Vector2)rigidbody.transform.position).normalized;
 
-        var xVelocity = (targetDirection * moveSpeed).x;
+        var xVelocity = (targetDirection * moveSpeed);
 
-        rigidbody.velocity = new Vector2(xVelocity, rigidbody.velocity.y);
+        rigidbody.velocity = xVelocity;
     }
 }
