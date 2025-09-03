@@ -11,13 +11,23 @@ public class GameLoop : MonoBehaviour
     [SerializeField]
     private Player playerPrefab;
 
+    [SerializeField]
+    private Enemy enemyPrefab;
+
+    [SerializeField]
+    private Transform enemySpawnerParent;
+
     private Player playerInstance;
+
+    EnemySpawner enemySpawner;
 
     private CancellationTokenSource ctsGameLoop;
 
     private void Awake()
     {
         ctsGameLoop = new CancellationTokenSource();
+
+        enemySpawner = new();
 
         GameProcess(ctsGameLoop.Token).Forget();
     }
@@ -27,5 +37,7 @@ public class GameLoop : MonoBehaviour
         await UniTask.WaitForSeconds(2f);
 
         playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+
+        enemySpawner.Initialize(enemyPrefab, 2f, playerInstance.transform, enemySpawnerParent);
     }
 }
