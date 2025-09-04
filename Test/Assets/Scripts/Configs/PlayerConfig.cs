@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,8 +13,14 @@ public class PlayerConfig : ScriptableObject
     public float PlayerJumpForce { get; private set; }
 
     [field: SerializeField]
+    public InputActionReference ChangeWeaponInput { get; private set; }
+
+    [field: SerializeField]
+    public InputActionReference ShootInput { get; private set; }
+
+    [field: SerializeField]
     public InputActionReference MoveInput { get; private set; }
 
     [field: SerializeField]
-    public InputActionReference JumpInput { get; private set; }
+    public List<WeaponConfig> WeaponsConfigs { get; private set; }
 }

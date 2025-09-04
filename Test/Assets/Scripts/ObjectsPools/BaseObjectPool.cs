@@ -9,7 +9,7 @@ public class BaseObjectPool<T> where T : PoolableObject
     private T poolableObject;
     private Transform objectsParent;
 
-    public void Initialize(T prefab, Transform objectsParent)
+    public void Initialize(T prefab, Transform objectsParent = null)
     {
         this.objectsParent = objectsParent;
 
@@ -42,7 +42,11 @@ public class BaseObjectPool<T> where T : PoolableObject
         {
             var obj = GameObject.Instantiate(poolableObject, Vector3.zero, Quaternion.identity);
 
-            obj.transform.SetParent(objectsParent);
+            if (objectsParent != null)
+            {
+                obj.transform.SetParent(objectsParent);
+            }
+
             poolableAvaliableObjects.Enqueue(obj);
         }
     }

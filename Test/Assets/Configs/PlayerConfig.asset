@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlayerMoveSpeed>k__BackingField: 5
   <PlayerJumpForce>k__BackingField: 400
+  <ChangeWeaponInput>k__BackingField: {fileID: 3632525452891848867, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
+  <ShootInput>k__BackingField: {fileID: 2300623580666662128, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
   <MoveInput>k__BackingField: {fileID: 2886451720448194685, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
   <JumpInput>k__BackingField: {fileID: -8137914258700514767, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
+  <WeaponsConfigs>k__BackingField:
+  - {fileID: 11400000, guid: 586e069c7702b3a4a958e21f82915020, type: 2}
+  - {fileID: 11400000, guid: bec4dc46ec5417c438b186aba96042e5, type: 2}

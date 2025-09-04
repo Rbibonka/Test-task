@@ -4,34 +4,44 @@ using UnityEngine.InputSystem;
 public class PlayerInputListener
 {
     private InputActionReference moveInput;
+    private InputActionReference shotInput;
+    private InputActionReference changeWeaponInput;
 
-    private InputActionReference jumpInput;
+    public event Action JumpButtonPressed;
+    public event Action ShootButtonPressed;
+    public event Action ChangeWeaponButtonPressed;
 
-    public event Action JumpedButtonPressed;
-
-    public float GetMoveInputValue
+    public UnityEngine.Vector2 GetMoveInputValue
     {
         get
         {
-            return moveInput.action.ReadValue<float>();
+            return moveInput.action.ReadValue<UnityEngine.Vector2>();
         }
     }
 
-    public void Initialize(InputActionReference moveInput, InputActionReference jumpInput)
+    public void Initialize(InputActionReference moveInput, InputActionReference shotInput, InputActionReference changeWeaponInput)
     {
         this.moveInput = moveInput;
-        this.jumpInput = jumpInput;
+        this.shotInput = shotInput;
+        this.changeWeaponInput = changeWeaponInput;
 
-        jumpInput.action.started += OnJumpedButtonPressed;
+        this.shotInput.action.started += OnShootButtonPressed;
+        this.changeWeaponInput.action.started += OnChangeButtonButtonPressed;
     }
 
     public void Deinitialize()
     {
-        jumpInput.action.started -= OnJumpedButtonPressed;
+        shotInput.action.started -= OnShootButtonPressed;
+        changeWeaponInput.action.started -= OnChangeButtonButtonPressed;
     }
 
-    private void OnJumpedButtonPressed(InputAction.CallbackContext callbackContext)
+    private void OnShootButtonPressed(InputAction.CallbackContext callbackContext)
     {
-        JumpedButtonPressed?.Invoke();
+        ShootButtonPressed?.Invoke();
+    }
+
+    private void OnChangeButtonButtonPressed(InputAction.CallbackContext callbackContext)
+    {
+        ChangeWeaponButtonPressed?.Invoke();
     }
 }

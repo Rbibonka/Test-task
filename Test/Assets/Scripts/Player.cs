@@ -9,16 +9,22 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Rigidbody2D rigidbody;
 
+    [SerializeField]
+    private Transform weaponTransformParent;
+
     private PlayerMover playerMover;
     private PlayerInputListener playerInputListener;
+    private PlayerWeaponController playerWeaponController;
 
     private void Awake()
     {
         playerMover = new();
         playerInputListener = new();
+        playerWeaponController = new();
 
-        playerInputListener.Initialize(playerConfig.MoveInput, playerConfig.JumpInput);
+        playerInputListener.Initialize(playerConfig.MoveInput, playerConfig.ShootInput, playerConfig.ChangeWeaponInput);
         playerMover.Initialize(rigidbody, playerConfig.PlayerMoveSpeed, playerConfig.PlayerJumpForce);
+        playerWeaponController.Initialize(playerConfig.WeaponsConfigs, weaponTransformParent);
     }
 
     private void OnDestroy()
@@ -28,12 +34,15 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInputListener.JumpedButtonPressed += OnJumped;
+        playerInputListener.ShootButtonPressed += OnShot;
+        playerInputListener.ChangeWeaponButtonPressed += OnWeaponChanged;
+
     }
 
     private void OnDisable()
     {
-        playerInputListener.JumpedButtonPressed -= OnJumped;
+        playerInputListener.ShootButtonPressed -= OnShot;
+        playerInputListener.ChangeWeaponButtonPressed -= OnWeaponChanged;
     }
 
     private void FixedUpdate()
@@ -41,10 +50,16 @@ public class Player : MonoBehaviour
         var moveDiraction = playerInputListener.GetMoveInputValue;
 
         playerMover.Move(moveDiraction);
+        playerWeaponController.LookAtCursor();
     }
 
-    private void OnJumped()
+    private void OnShot()
     {
-        playerMover.Jump();
+        playerWeaponController.Shot();
+    }
+
+    private void OnWeaponChanged()
+    {
+        playerWeaponController.ChangeWeapon();
     }
 }

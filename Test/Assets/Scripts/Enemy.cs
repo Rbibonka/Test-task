@@ -11,6 +11,11 @@ public class Enemy : PoolableObject
     [SerializeField]
     private float moveSpeed;
 
+    [SerializeField]
+    private int health;
+
+    private int currentHealth;
+
     private Transform targetTransform;
 
     private EnemyMover enemyMover;
@@ -21,17 +26,25 @@ public class Enemy : PoolableObject
     {
         this.targetTransform = targetTransform;
 
+        currentHealth = health;
+
         enemyMover = new();
         enemyMover.Initialize(moveSpeed, rigidbody);
-
-        WaitForDead().Forget();
     }
 
-    private async UniTask WaitForDead()
+    public void TakeDamage(int damage)
     {
-        await UniTask.WaitForSeconds(5f);
+        if (damage < 0)
+        {
+            return;
+        }
 
-        Dead();
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Dead();
+        }
     }
 
     public void FixedUpdate()

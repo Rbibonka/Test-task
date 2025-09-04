@@ -14,13 +14,8 @@ public class PlayerMover
         this.jumpForce = jumpForce;
     }
 
-    public void Move(float moveDiraction)
+    public void Move(Vector2 moveDiraction)
     {
-        rb.velocity = new Vector2(moveDiraction * moveSpeed, rb.velocity.y);
-    }
-
-    public void Jump()
-    {
-        rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
+        rb.velocity = new Vector2(moveDiraction.x * moveSpeed, moveDiraction.y * moveSpeed);
     }
 }
