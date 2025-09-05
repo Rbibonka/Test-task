@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca4dc8d427bac245840b6e423b434df, type: 3}
+  m_Name: PlayerConfig
+  m_EditorClassIdentifier: 
+  <PlayerMoveSpeed>k__BackingField: 5
+  <PlayerJumpForce>k__BackingField: 400
+  <PlayerHealth>k__BackingField: 1
+  <ChangeWeaponInput>k__BackingField: {fileID: 3632525452891848867, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
+  <ShootInput>k__BackingField: {fileID: 2300623580666662128, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
+  <MoveInput>k__BackingField: {fileID: 2886451720448194685, guid: c31f58381f02de94ebb60ebe33e4e317, type: 3}
+  <WeaponsConfigs>k__BackingField:
+  - {fileID: 11400000, guid: 586e069c7702b3a4a958e21f82915020, type: 2}
+  - {fileID: 11400000, guid: bec4dc46ec5417c438b186aba96042e5, type: 2}
