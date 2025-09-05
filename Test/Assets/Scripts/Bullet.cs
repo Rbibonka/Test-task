@@ -10,6 +10,7 @@ public class Bullet : PoolableObject
     private Rigidbody2D rigidbody;
 
     public event Action<Bullet> Destroyed;
+    public event Action<Bullet> Deinitialize;
 
     private CancellationTokenSource cts;
 
@@ -50,5 +51,10 @@ public class Bullet : PoolableObject
 
             Destroy();
         }
+    }
+
+    private void OnDestroy()
+    {
+        Deinitialize?.Invoke(this);
     }
 }

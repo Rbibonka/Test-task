@@ -1,10 +1,9 @@
 using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 public class EnemySpawner
 {
-    private Enemy enemyPrefab;
-
     private float spawnPointsOffset;
 
     private Vector2 bottomLeftCameraBorder;
@@ -18,9 +17,12 @@ public class EnemySpawner
 
     private EnemyObjectPool enemyObjectPool;
 
+    private CancellationTokenSource cts;
+
     public void Initialize(Enemy enemyPrefab, float spawnPointsOffset, Transform targetTransform, Transform enemySpawnerParent)
     {
-        this.enemyPrefab = enemyPrefab;
+        cts = new();
+
         this.spawnPointsOffset = spawnPointsOffset;
         this.targetTransform = targetTransform;
 
@@ -30,7 +32,13 @@ public class EnemySpawner
 
         SetCameraInformation();
 
-        SpawnEnemies().Forget();
+        SpawnEnemies(cts.Token).Forget();
+    }
+
+    public void Deinitialize()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
     }
 
     private void SetCameraInformation()
@@ -46,11 +54,11 @@ public class EnemySpawner
         neccesarySpawnDistance = (cameraCenter - bottomLeftCameraBorder).magnitude + SpawnOffset;
     }
 
-    private async UniTask SpawnEnemies()
+    private async UniTask SpawnEnemies(CancellationToken ct)
     {
         while (true)
         {
-            await UniTask.WaitForSeconds(3f);
+            await UniTask.WaitForSeconds(3f, cancellationToken: ct);
 
             var enemy = enemyObjectPool.GetFromPool();
 

@@ -16,6 +16,7 @@ public class Enemy : PoolableObject
 
     private int currentHealth;
 
+    [SerializeField]
     private Transform targetTransform;
 
     private EnemyMover enemyMover;
@@ -55,6 +56,14 @@ public class Enemy : PoolableObject
         }
 
         enemyMover.MoveToTarget(targetTransform.position);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<Player>(out Player player))
+        {
+            player.TakeDamage(1);
+        }
     }
 
     public void Dead()
