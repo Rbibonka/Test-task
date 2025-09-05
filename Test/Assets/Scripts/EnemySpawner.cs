@@ -50,21 +50,21 @@ public class EnemySpawner
     {
         while (true)
         {
-            await UniTask.WaitForSeconds(0.5f);
+            await UniTask.WaitForSeconds(3f);
 
             var enemy = enemyObjectPool.GetFromPool();
 
             enemy.transform.SetParent(null);
             enemy.gameObject.SetActive(true);
 
-            enemy.transform.position = Point();
+            enemy.transform.position = GetPoint();
             enemy.Initialize(targetTransform);
 
             enemy.OnDead += OnEnemyDead;
         }
     }
 
-    private Vector2 Point()
+    private Vector2 GetPoint()
     {
         Vector2 xPosition = Vector2.zero;
 
