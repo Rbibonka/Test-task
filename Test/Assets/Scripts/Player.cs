@@ -16,31 +16,31 @@ public class Player : MonoBehaviour
     private PlayerInputListener playerInputListener;
     private PlayerWeaponController playerWeaponController;
 
-    private void Awake()
+    public bool isDead { get; private set; }
+
+    private int currentHealth;
+
+    public void Iniilize()
     {
         playerMover = new();
         playerInputListener = new();
         playerWeaponController = new();
 
         playerInputListener.Initialize(playerConfig.MoveInput, playerConfig.ShootInput, playerConfig.ChangeWeaponInput);
-        playerMover.Initialize(rigidbody, playerConfig.PlayerMoveSpeed, playerConfig.PlayerJumpForce);
+        playerMover.Initialize(rigidbody, playerConfig.PlayerMoveSpeed);
         playerWeaponController.Initialize(playerConfig.WeaponsConfigs, weaponTransformParent);
-    }
 
-    private void OnDestroy()
-    {
-        playerInputListener.Deinitialize();
-    }
+        currentHealth = playerConfig.PlayerHealth;
 
-    private void OnEnable()
-    {
         playerInputListener.ShootButtonPressed += OnShot;
         playerInputListener.ChangeWeaponButtonPressed += OnWeaponChanged;
 
     }
 
-    private void OnDisable()
+    public void Deinitialize()
     {
+        playerInputListener.Deinitialize();
+
         playerInputListener.ShootButtonPressed -= OnShot;
         playerInputListener.ChangeWeaponButtonPressed -= OnWeaponChanged;
     }
@@ -51,6 +51,21 @@ public class Player : MonoBehaviour
 
         playerMover.Move(moveDiraction);
         playerWeaponController.LookAtCursor();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (damage < 0)
+        {
+            return;
+        }
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            isDead = true;
+        }
     }
 
     private void OnShot()

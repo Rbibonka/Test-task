@@ -48,24 +48,32 @@ public class Weapon : MonoBehaviour
         bullet.StartShot(bulletSpeed);
 
         bullet.Destroyed += OnBulletDestroyed;
+        bullet.Deinitialize += OnBulletDiinitialize;
 
         ReloadTimer(reloadTime, cts.Token).Forget();
     }
 
-    public void OnBulletDestroyed(Bullet bullet)
+    private void OnBulletDestroyed(Bullet bullet)
     {
         bullet.gameObject.SetActive(false);
 
         bulletObjectPool.SetToPool(bullet);
 
         bullet.Destroyed -= OnBulletDestroyed;
+        bullet.Deinitialize -= OnBulletDiinitialize;
+    }
+
+    private void OnBulletDiinitialize(Bullet bullet)
+    {
+        bullet.Destroyed -= OnBulletDestroyed;
+        bullet.Deinitialize -= OnBulletDiinitialize;
     }
 
     private async UniTask ReloadTimer(float time, CancellationToken ct)
     {
         isReoladed = true;
 
-        await UniTask.WaitForSeconds(time);
+        await UniTask.WaitForSeconds(time, cancellationToken: ct);
 
         isReoladed = false;
     }

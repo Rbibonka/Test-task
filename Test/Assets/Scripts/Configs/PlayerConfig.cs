@@ -10,7 +10,7 @@ public class PlayerConfig : ScriptableObject
     public float PlayerMoveSpeed { get; private set; }
 
     [field: SerializeField]
-    public float PlayerJumpForce { get; private set; }
+    public int PlayerHealth { get; private set; }
 
     [field: SerializeField]
     public InputActionReference ChangeWeaponInput { get; private set; }
